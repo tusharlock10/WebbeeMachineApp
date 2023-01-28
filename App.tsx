@@ -8,7 +8,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import { expo } from "./app.json";
 import { ImportedFonts } from './src/constants/fonts';
 import { store } from './src/state/store';
-import { Loading } from './src/ui/components';
+import { Loading } from './src/ui/common';
 import { RootNavigation } from './src/ui/navigation';
 import { appTheme } from './src/ui/theme';
 

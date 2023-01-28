@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../../state/store';
-import { MachineCard } from '../../components';
+import { MachineCard } from '../../common';
 import type { RootParamList } from '../../navigation';
 import { styles } from './styles';
 
