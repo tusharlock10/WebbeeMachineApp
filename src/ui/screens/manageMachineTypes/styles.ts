@@ -3,7 +3,10 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20
+  },
+  listStyle: {
+    flexGrow: 1,
+    paddingBottom: 100
   },
   button: {
     padding: 10,
@@ -16,5 +19,17 @@ export const styles = StyleSheet.create({
   },
   attributeContainer: {
     marginBottom: 8,
+  },
+  attributeFieldContainer: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+    paddingHorizontal: 10,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
   },
 }); 
