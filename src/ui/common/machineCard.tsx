@@ -3,7 +3,7 @@ import { Card, Text } from 'react-native-paper';
 import { useDispatch, } from 'react-redux';
 import { Machine } from '../../interface/machine';
 import { MachineType } from '../../interface/machineType';
-import { editMachineType } from '../../state/slices/machine';
+import { editMachine } from '../../state/slices/machine';
 import { MachineCardField } from './machineCardField';
 
 interface MachineCardProps {
@@ -19,7 +19,10 @@ export const MachineCard = ({ machine, machineType }: MachineCardProps) => {
       return null;
     }
     const titleAttribute = machineType.attributes[machineType.titleFieldIndex];
-    const field = machine.fields.find(item => item.attributeId == titleAttribute.id)!;
+    const field = machine.fields.find(item => item.attributeId == titleAttribute.id);
+    if (!field) {
+      return null;
+    }
     return field.value;
   };
 
@@ -27,7 +30,7 @@ export const MachineCard = ({ machine, machineType }: MachineCardProps) => {
     let newFields = [...machine.fields];
     newFields = newFields.map((item, i) => index === i ? { ...machine.fields[i], value } : item);
 
-    dispatch(editMachineType({ ...machine, fields: newFields }));
+    dispatch(editMachine({ ...machine, fields: newFields }));
   };
 
   return (
