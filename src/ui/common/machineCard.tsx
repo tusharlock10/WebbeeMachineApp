@@ -1,9 +1,9 @@
 import { View } from 'react-native';
-import { Card, Text } from 'react-native-paper';
+import { Button, Card, Text } from 'react-native-paper';
 import { useDispatch, } from 'react-redux';
 import { Machine } from '../../interface/machine';
 import { MachineType } from '../../interface/machineType';
-import { editMachine } from '../../state/slices/machine';
+import { deleteMachine, editMachine } from '../../state/slices/machine';
 import { MachineCardField } from './machineCardField';
 
 interface MachineCardProps {
@@ -15,7 +15,7 @@ export const MachineCard = ({ machine, machineType }: MachineCardProps) => {
   const dispatch = useDispatch();
 
   const getTitleField = () => {
-    if (!machineType.titleFieldIndex) {
+    if (machineType.titleFieldIndex === null) {
       return null;
     }
     const titleAttribute = machineType.attributes[machineType.titleFieldIndex];
@@ -33,9 +33,16 @@ export const MachineCard = ({ machine, machineType }: MachineCardProps) => {
     dispatch(editMachine({ ...machine, fields: newFields }));
   };
 
+  const onDeletePress = () => {
+    dispatch(deleteMachine(machine.id));
+  };
+
   return (
     <Card style={{ padding: 10 }}>
-      <Text variant='bodyLarge'>{getTitleField()}</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Text variant='bodyLarge'>{getTitleField()}</Text>
+        <Button textColor={'red'} onPress={onDeletePress} >Delete</Button>
+      </View>
       {
         machine.fields.map((item, index) => {
           return <View key={item.attributeId} style={{ marginTop: 5 }}>

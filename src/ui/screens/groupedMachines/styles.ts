@@ -29,4 +29,13 @@ export const styles = StyleSheet.create({
     paddingBottom: 10,
     justifyContent: 'space-between'
   },
+  centre: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  emptyText: {
+    textAlign: 'center',
+    color: 'grey'
+  },
 }); 

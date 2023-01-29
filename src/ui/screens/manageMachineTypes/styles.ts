@@ -32,4 +32,13 @@ export const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
+  centre: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  emptyText: {
+    textAlign: 'center',
+    color: 'grey'
+  },
 }); 

@@ -21,7 +21,7 @@ export const RootNavigation = () => {
       screenOptions={{ drawerType: 'slide', drawerPosition: 'left', headerTitleStyle: { fontFamily: Fonts.Oswald } }}>
       <Drawer.Screen name="Dashboard" component={Dashboard} />
       <Drawer.Screen options={{ headerTitle: "Manage Machines" }} name="ManageMachineTypes" component={ManageMachineTypes} />
-      <Drawer.Screen options={{ headerTitle: "Machines" }} name="GroupedMachines" component={GroupedMachines} />
+      <Drawer.Screen options={({ route }) => ({ title: route.params?.machineType.name ?? "Machines" })} name="GroupedMachines" component={GroupedMachines} />
     </Drawer.Navigator>
   );
 };

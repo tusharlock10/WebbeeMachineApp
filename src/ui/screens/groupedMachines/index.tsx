@@ -15,7 +15,7 @@ export const GroupedMachines = ({ route }: Props) => {
 
   const dispatch = useDispatch();
 
-  const { machines } = useSelector((state: RootState) => state.machine);
+  const machines = useSelector((state: RootState) => state.machine.machines.filter((item) => item.machineTypeId === machineType.id));
 
   const onAddMachine = () => {
     const newMachine = getInitialMachineData(machineType);
@@ -28,6 +28,11 @@ export const GroupedMachines = ({ route }: Props) => {
         data={machines}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listStyle}
+        ListEmptyComponent={
+          <View style={styles.centre}>
+            <Text style={styles.emptyText}>Sorry, there are no items</Text>
+          </View>
+        }
         ListHeaderComponent={
           <View style={styles.header}>
             <Text variant="titleLarge">{machineType.name}</Text>

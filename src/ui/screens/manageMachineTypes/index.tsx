@@ -1,5 +1,5 @@
 import { FlatList, View } from 'react-native';
-import { FAB } from 'react-native-paper';
+import { FAB, Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuid } from 'uuid';
 import { MachineType } from '../../../interface/machineType';
@@ -29,6 +29,11 @@ export const ManageMachineTypes = () => {
         contentContainerStyle={styles.listStyle}
         data={machineTypes}
         keyExtractor={(item) => item.id}
+        ListEmptyComponent={
+          <View style={styles.centre}>
+            <Text style={styles.emptyText}>Sorry, there are no items</Text>
+          </View>
+        }
         renderItem={({ item }) => {
           return <View style={{ padding: 10 }}>
             <MachineTypeCard data={item} />
@@ -37,6 +42,7 @@ export const ManageMachineTypes = () => {
       />
       <FAB
         icon={"plus"}
+        label={"Add"}
         onPress={onCreateMachineType}
         style={styles.fab}
       />

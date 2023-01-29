@@ -15,7 +15,7 @@ interface MachineCardFieldProps {
 export const MachineCardField = (props: MachineCardFieldProps) => {
   const { machineField, machineType } = props;
 
-  const attribute = machineType.attributes.find((item) => item.id === machineField.attributeId)!;
+  const attribute = machineType.attributes.find((item) => item.id === machineField.attributeId);
 
   const [visible, setVisible] = useState(false);
 
@@ -33,6 +33,9 @@ export const MachineCardField = (props: MachineCardFieldProps) => {
     }
     setVisible(false);
   };
+  if (!attribute) {
+    return <></>;
+  }
 
   if (attribute.type === AttributeTypes.text) {
     return <TextInput
@@ -68,7 +71,7 @@ export const MachineCardField = (props: MachineCardFieldProps) => {
       <TouchableOpacity activeOpacity={0.9} onPress={() => setVisible(true)}>
         <TextInput
           mode={"outlined"}
-          label={attribute.name}
+          label={attribute?.name}
           value={machineField.value}
           editable={false}
         />

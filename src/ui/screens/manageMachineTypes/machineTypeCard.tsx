@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { v4 as uuid } from 'uuid';
 import { AttributeTypes, DraftMachineTypeAttribute, MachineType } from '../../../interface/machineType';
 import { isMachineTypeAttributeValid } from '../../../services/validators';
+import { addMachineFieldOfAttribute, deleteMachineFieldsOfAttribute, deleteMachinesOfType, resetMachineFieldsOfAttribute } from '../../../state/slices/machine';
 import { deleteMachineType, editMachineType } from '../../../state/slices/machineType';
 import { AttributeField } from './attributeField';
 
@@ -44,6 +45,9 @@ export const MachineTypeCard = ({ data }: MachineTypeCardProps) => {
   };
 
   const onDeletePress = () => {
+    // delete all machines for this machine type
+    dispatch(deleteMachinesOfType(data.id));
+    // delete machine type
     dispatch(deleteMachineType(data.id));
   };
 
@@ -71,16 +75,23 @@ export const MachineTypeCard = ({ data }: MachineTypeCardProps) => {
   };
 
   const onChangeAttributeType = (attributeType: AttributeTypes, index: number) => {
-    const newAttribute = { ...attributes[index], type: attributeType };
+    const attribute = { ...attributes[index] };
+    if (attribute.type === attributeType) {
+      // no change in type, return
+      return;
+    }
 
-    attributes[index] = newAttribute;
+    attribute.type = attributeType;
+    attributes[index] = attribute;
     setAttributes([...attributes]);
 
+    // if the type changes, then reset values of all machine fields of this attribute
+    dispatch(resetMachineFieldsOfAttribute(attribute));
     insertMachineType(name, titleFieldIndex, attributes);
   };
 
   const onRemoveAttribute = (index: number) => {
-    _.pullAt(attributes, [index])[0];
+    const attribute = _.pullAt(attributes, [index])[0];
 
     let tempTitleFieldIndex = titleFieldIndex;
     if (index === titleFieldIndex) {
@@ -89,6 +100,9 @@ export const MachineTypeCard = ({ data }: MachineTypeCardProps) => {
     }
 
     setAttributes([...attributes]);
+
+    // remove this attribute from all machines
+    dispatch(deleteMachineFieldsOfAttribute(attribute));
     insertMachineType(name, tempTitleFieldIndex, attributes);
   };
 
@@ -101,14 +115,21 @@ export const MachineTypeCard = ({ data }: MachineTypeCardProps) => {
     };
 
     const newAttributes = [...attributes, newAttribute];
+
+    // add this new field to existing machines
+    dispatch(addMachineFieldOfAttribute({
+      attribute: newAttribute,
+      machineTypeId: data.id,
+    }));
     setAttributes(newAttributes);
   };
 
-  const onChangeTitleField = (name: string) => {
+  const onChangeTitleField = (titleFieldName: string) => {
     toggleTitleMenu();
-    const titleFieldIndex = attributes.findIndex((item) => item.name == name);
-    setTitleFieldIndex(titleFieldIndex);
-    insertMachineType(name, titleFieldIndex, attributes);
+
+    const tempTitleFieldIndex = attributes.findIndex((item) => item.name == titleFieldName);
+    setTitleFieldIndex(tempTitleFieldIndex);
+    insertMachineType(name, tempTitleFieldIndex, attributes);
   };
 
   const getValidAttributes = () => attributes.filter((item) => {

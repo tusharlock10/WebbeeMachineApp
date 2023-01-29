@@ -1,7 +1,17 @@
 import { v4 as uuid } from 'uuid';
-import { Machine, MachineField } from '../interface/machine';
+import { Machine } from '../interface/machine';
 import { AttributeTypes, MachineType } from '../interface/machineType';
 import { formatDateToString } from './date';
+
+export const getDefaultAttributeValue = (attributeType: AttributeTypes) => {
+  if (attributeType === AttributeTypes.checkBox) {
+    return "unchecked";
+  }
+  if (attributeType === AttributeTypes.date) {
+    return formatDateToString(new Date());
+  }
+  return "";
+};
 
 export const getInitialMachineData = (machineType: MachineType) => {
   // takes a machine type, and creates an empty machine data
@@ -10,15 +20,9 @@ export const getInitialMachineData = (machineType: MachineType) => {
     fields: [],
     machineTypeId: machineType.id,
   };
-  newMachine.fields = machineType.attributes.map((attribute) => {
-    const machineField: MachineField = { attributeId: attribute.id, value: "" };
-    if (attribute.type === AttributeTypes.checkBox) {
-      machineField.value = "unchecked";
-    }
-    if (attribute.type === AttributeTypes.date) {
-      machineField.value = formatDateToString(new Date());
-    }
-    return machineField;
-  });
+  newMachine.fields = machineType.attributes.map((attribute) => ({
+    attributeId: attribute.id,
+    value: getDefaultAttributeValue(attribute.type)
+  }));
   return newMachine;
 };
