@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { Button, Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
+import { getDeviceGridNumber, getGridWidth } from '../../../services/device';
 import { getInitialMachineData } from '../../../services/machine';
 import { addMachine } from '../../../state/slices/machine';
 import type { RootState } from '../../../state/store';
@@ -25,6 +26,7 @@ export const GroupedMachines = ({ route }: Props) => {
   return (
     <View style={styles.container}>
       <FlatList
+        numColumns={getDeviceGridNumber()}
         data={machines}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listStyle}
@@ -40,7 +42,7 @@ export const GroupedMachines = ({ route }: Props) => {
           </View>
         }
         renderItem={({ item }) => {
-          return <View style={{ padding: 10 }}>
+          return <View style={{ padding: 10, width: getGridWidth() }}>
             <MachineCard
               machine={item}
               machineType={machineType}

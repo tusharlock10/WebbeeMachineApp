@@ -3,6 +3,7 @@ import { FAB, Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuid } from 'uuid';
 import { MachineType } from '../../../interface/machineType';
+import { getDeviceGridNumber, getGridWidth } from '../../../services/device';
 import { addMachineType } from '../../../state/slices/machineType';
 import type { RootState } from '../../../state/store';
 import { MachineTypeCard } from './machineTypeCard';
@@ -26,6 +27,8 @@ export const ManageMachineTypes = () => {
   return (
     <View style={styles.container}>
       <FlatList
+        numColumns={getDeviceGridNumber()}
+        style={{ width: "100%" }}
         contentContainerStyle={styles.listStyle}
         data={machineTypes}
         keyExtractor={(item) => item.id}
@@ -35,7 +38,7 @@ export const ManageMachineTypes = () => {
           </View>
         }
         renderItem={({ item }) => {
-          return <View style={{ padding: 10 }}>
+          return <View style={{ padding: 10, width: getGridWidth() }}>
             <MachineTypeCard data={item} />
           </View>;
         }}

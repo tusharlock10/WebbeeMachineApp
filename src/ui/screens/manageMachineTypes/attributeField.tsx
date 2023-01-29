@@ -38,7 +38,7 @@ export const AttributeField = (props: AttributeFieldProps) => {
       <View style={{ width: 10 }} />
       <Menu visible={menuVisible}
         onDismiss={toggleMenu}
-        anchor={<Chip onPress={toggleMenu}>{props.attribute.type}</Chip>}>
+        anchor={<Chip onPress={toggleMenu}>{_.capitalize(props.attribute.type)}</Chip>}>
         <Menu.Item dense={true} title={_.capitalize(AttributeTypes.checkBox)} onPress={() => onPressType(AttributeTypes.checkBox)} />
         <Menu.Item dense={true} title={_.capitalize(AttributeTypes.text)} onPress={() => onPressType(AttributeTypes.text)} />
         <Menu.Item dense={true} title={_.capitalize(AttributeTypes.date)} onPress={() => onPressType(AttributeTypes.date)} />
